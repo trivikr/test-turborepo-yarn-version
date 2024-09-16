@@ -1,42 +1,70 @@
-# Turborepo starter with shell commands
+# test-turborepo-yarn-version
 
-This is an official starter Turborepo meant for debugging, learning, and exploring.
+This is a test repository to check if the `yarn` version is correctly detected by `turbo`.
 
-## Using this example
+## Pre-requisites
 
-Run the following command:
+* Install Node.js
+* Run `corepack enable` to help Node.js detect yarn version
 
-```sh
-npx create-turbo@latest -e with-shell-commands
+## Steps to reproduce
+
+Run `yarn turbo build`
+```console
+$ yarn --version
+1.22.22
+
+$ yarn turbo build
+yarn run v1.22.22
+$ /Users/trivikr/workspace/test-turborepo-yarn-version/node_modules/.bin/turbo build
+turbo 2.1.2
+
+• Packages in scope: app-a, app-b, pkg-a, pkg-b, tooling-config
+• Running build in 5 packages
+• Remote caching disabled
+pkg-b:prebuild: cache hit, replaying logs c89be603e815ebcc
+pkg-b:prebuild: 
+yarn run v1.22.22
+warning package.json: No license field
+$ echo "Executing pre-build step..."
+pkg-b:prebuild: Executing pre-build step...
+✨  Done in 0.04s.
+app-b:build: cache hit, replaying logs 211c7d7e8035ff5b
+pkg-a:build: cache hit, replaying logs 0ab7f84c29ec3c36
+app-b:build: 
+yarn run v1.22.22
+warning package.json: No license field
+$ mkdir -p dist && echo "Your application output!" > dist/app-output.txt && echo "Application B is built!"
+app-b:build: Application B is built!
+✨  Done in 0.05s.
+pkg-a:build: 
+yarn run v1.22.22
+warning package.json: No license field
+$ echo "Building at the speed of Turbo." > output-file.txt && cat output-file.txt
+pkg-a:build: Building at the speed of Turbo.
+✨  Done in 0.04s.
+pkg-b:build: cache hit, replaying logs 76ca724502afbacb
+pkg-b:build: 
+yarn run v1.22.22
+warning package.json: No license field
+$ echo "Executing pre-build step..."
+pkg-b:build: Executing pre-build step...
+$ echo "Welcome to the Turboverse." > output-file.txt && cat output-file.txt
+pkg-b:build: Welcome to the Turboverse.
+✨  Done in 0.05s.
+app-a:build: cache hit, replaying logs 0d657c2f008d301b
+app-a:build: 
+yarn run v1.22.22
+warning package.json: No license field
+$ mkdir -p dist && echo "Your application output!" > dist/app-output.txt && echo "Application A is built!"
+app-a:build: Application A is built!
+✨  Done in 0.04s.
+
+ Tasks:    5 successful, 5 total
+Cached:    5 cached, 5 total
+  Time:    216ms >>> FULL TURBO
+
+✨  Done in 1.32s.
 ```
 
-### For bug reproductions
-
-Giving the Turborepo core team a minimal reproduction is the best way to create a tight feedback loop for a bug you'd like to report.
-
-Because most monorepos will rely on more tooling than Turborepo (frameworks, linters, formatters, etc.), it's often useful for us to have a reproduction that strips away all of this other tooling so we can focus _only_ on Turborepo's role in your repo. This example does exactly that, giving you a good starting point for creating a reproduction.
-
-- Feel free to rename/delete packages for your reproduction so that you can be confident it most closely matches your use case.
-- If you need to use a different package manager to produce your bug, run `npx @turbo/workspaces convert` to switch package managers.
-- It's possible that your bug really **does** have to do with the interaction of Turborepo and other tooling within your repository. If you find that your bug does not reproduce in this minimal example and you're confident Turborepo is still at fault, feel free to bring that other tooling into your reproduction.
-
-## What's inside?
-
-This Turborepo includes the following packages:
-
-### Apps and Packages
-
-- `app-a`: A final package that depends on all other packages in the graph and has no dependents. This could resemble an application in your monorepo that consumes everything in your monorepo through its topological tree.
-- `app-b`: Another final package with many dependencies. No dependents, lost of dependencies.
-- `pkg-a`: A package that has all scripts in the root `package.json`.
-- `pkg-b`: A package with _almost_ all scripts in the root `package.json`.
-- `tooling-config`: A package to simulate a common configuration used for all of your repository. This could resemble a configuration for tools like TypeScript or ESLint that are installed into all of your packages.
-
-### Some scripts to try
-
-If you haven't yet, [install global `turbo`](https://turbo.build/repo/docs/installing#install-globally) to run tasks.
-
-- `turbo build lint typecheck`: Runs all tasks in the default graph.
-- `turbo build`: A basic command to build `app-a` and `app-b` in parallel.
-- `turbo build --filter=app-a`: Building only `app-a` and its dependencies.
-- `turbo lint`: A basic command for running lints in all packages in parallel.
+The `yarn` version is correctly detected by `turbo` as `v1.22.22`.
